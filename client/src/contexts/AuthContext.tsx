@@ -53,7 +53,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (token) {
       refreshUser().finally(() => setLoading(false));
     } else {
-      setLoading(false);
+      // Try auto-login from localhost
+      api.get<{ status: string; token: string }>("/auth/local-token")
+        .then((res) => {
+          if (res.status === "active" && res.token) {
+            localStorage.setItem("token", res.token);
+            return refreshUser();
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
     }
   }, [refreshUser]);
 

@@ -73,6 +73,43 @@ router.post("/login", async (req, res) => {
   res.json({ status: "active", token: result.token, user: result.user });
 });
 
+// Auto-login: only accessible from localhost, no credentials needed
+router.get("/local-token", async (req, res) => {
+  const ip = req.ip || req.socket.remoteAddress || "";
+  const isLocal = ip === "127.0.0.1" || ip === "::1" || ip === "::ffff:127.0.0.1";
+  if (!isLocal) {
+    res.status(403).json({ status: "error", message: "Local only" });
+    return;
+  }
+
+  const { query } = await import("../config/database.js");
+  const result = await query(
+    `SELECT u.id, u.email, us.role
+     FROM users u
+     JOIN user_settings us ON us.user_id = u.id
+     WHERE us.role != 'pending'
+     ORDER BY u.created_at ASC
+     LIMIT 1`,
+    []
+  );
+
+  if (result.rows.length === 0) {
+    res.status(404).json({ status: "error", message: "No active user found" });
+    return;
+  }
+
+  const user = result.rows[0];
+  const jwt = await import("jsonwebtoken");
+  const { env } = await import("../config/env.js");
+  const token = jwt.default.sign(
+    { userId: user.id, email: user.email, role: user.role },
+    env.JWT_SECRET,
+    { expiresIn: env.JWT_EXPIRES_IN } as any
+  );
+
+  res.json({ status: "active", token });
+});
+
 router.get("/me", authMiddleware, async (req, res) => {
   const { getUserId } = await import("../utils/routeHelpers.js");
   const user = await getMe(getUserId(req));

@@ -14,11 +14,11 @@ from datetime import datetime, timezone
 # =============================================
 WEBHOOK_URL = os.environ.get(
     'TOKEN_TRACKER_WEBHOOK',
-    'http://localhost:3001/api/webhook/track-tokens'
+    'http://localhost:3002/api/webhook/track-tokens'
 )
 WEBHOOK_TOKEN = os.environ.get(
     'TOKEN_TRACKER_TOKEN',
-    '1a51c48f-4892-4ce7-ac9f-793410593069'
+    'seu-webhook-token-aqui'
 )
 # =============================================
 
