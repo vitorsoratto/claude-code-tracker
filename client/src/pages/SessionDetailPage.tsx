@@ -19,7 +19,7 @@ import {
   MessageSquare, DollarSign, Hash, Clock, Activity, FolderOpen, ExternalLink,
 } from "lucide-react";
 import { formatUSD, formatNumber, formatTokens, formatDate } from "@/lib/formatters";
-import { MODEL_COLORS, normalizeModelFamily } from "@/lib/constants";
+import { getSourceLabel, MODEL_COLORS, normalizeModelFamily } from "@/lib/constants";
 import { TOOLTIP_PROPS } from "@/lib/chartConfig";
 import { toast } from "sonner";
 
@@ -123,7 +123,7 @@ export function SessionDetailPage() {
             entryCount={session.entry_count}
           />
           <div className="flex items-center gap-2 mt-2 flex-wrap">
-            <Badge variant="outline" className="text-xs">{session.source}</Badge>
+            <Badge variant="outline" className="text-xs">{getSourceLabel(session.source)}</Badge>
             {session.project_id && session.project_name && (
               <Link to={`/projects/${session.project_id}`}>
                 <Badge variant="secondary" className="text-xs gap-1 hover:bg-secondary/80 transition-colors cursor-pointer">

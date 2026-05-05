@@ -16,7 +16,10 @@ dist/
 
 # Data / state
 .last_sent_line.json
+.opencode_last_sent.json
+.harness_import_state.json
 token_log.jsonl
+*_token_log.jsonl
 
 # Security
 *.pem

@@ -21,7 +21,7 @@ export interface WebhookRequest extends Request {
 
 export interface TokenPayload {
   timestamp: string;
-  source: "claude-code" | "claude.ai";
+  source: "claude-code" | "claude.ai" | "opencode" | "codex" | "pi" | "droid";
   model: string;
   input_tokens: number;
   output_tokens: number;

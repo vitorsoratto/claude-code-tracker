@@ -11,6 +11,7 @@ interface Props {
 export function WebhookInfo({ webhookToken }: Props) {
   const [copied, setCopied] = useState<string | null>(null);
   const [showClaudeAiGuide, setShowClaudeAiGuide] = useState(false);
+  const [showHarnessGuide, setShowHarnessGuide] = useState(false);
 
   function copyText(text: string, label: string) {
     navigator.clipboard.writeText(text);
@@ -19,6 +20,9 @@ export function WebhookInfo({ webhookToken }: Props) {
   }
 
   const webhookUrl = `${window.location.origin}/api/webhook/track-tokens`;
+  const harnessImportCommand = `TOKEN_TRACKER_WEBHOOK="${webhookUrl}" \\
+TOKEN_TRACKER_TOKEN="${webhookToken}" \\
+python3 scripts/harness_importer.py --source all`;
 
   const claudeAiCurlExample = `curl -X POST "${webhookUrl}" \\
   -H "Content-Type: application/json" \\
@@ -89,6 +93,40 @@ export function WebhookInfo({ webhookToken }: Props) {
             </p>
           </div>
 
+          {/* Agent harness importer */}
+          <div className="border-t pt-4">
+            <button
+              className="flex items-center gap-2 text-sm font-medium hover:text-foreground transition-colors text-muted-foreground w-full text-left"
+              onClick={() => setShowHarnessGuide(!showHarnessGuide)}
+            >
+              {showHarnessGuide ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              Configuração — Codex / Pi / Droid
+            </button>
+
+            {showHarnessGuide && (
+              <div className="mt-3 space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Rode o importador local para ler os registros em <code className="rounded bg-muted px-1">~/.codex</code>,{" "}
+                  <code className="rounded bg-muted px-1">~/.pi/agent</code> e <code className="rounded bg-muted px-1">~/.factory</code>.
+                </p>
+                <div className="rounded bg-muted p-3 text-xs font-mono whitespace-pre-wrap overflow-x-auto relative">
+                  {harnessImportCommand}
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-2 right-2 h-6 w-6"
+                    onClick={() => copyText(harnessImportCommand, "harness")}
+                  >
+                    {copied === "harness" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Use <code className="rounded bg-muted px-1">--dry-run</code> para conferir a leitura sem enviar dados.
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* Guia claude.ai */}
           <div className="border-t pt-4">
             <button
@@ -133,7 +171,7 @@ export function WebhookInfo({ webhookToken }: Props) {
                       </thead>
                       <tbody>
                         {[
-                          ["source", "string", "Ex: claude.ai, meu-script, n8n"],
+                          ["source", "string", "Ex: claude.ai, claude-code, opencode, codex, pi, droid"],
                           ["model", "string", "Nome do modelo usado"],
                           ["input_tokens", "int", "Tokens de entrada"],
                           ["output_tokens", "int", "Tokens de saída"],

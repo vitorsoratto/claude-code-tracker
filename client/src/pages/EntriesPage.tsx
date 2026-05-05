@@ -10,6 +10,7 @@ import { NativeSelect } from "@/components/shared/NativeSelect";
 import { Pagination } from "@/components/shared/Pagination";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { toast } from "sonner";
+import { SOURCE_OPTIONS } from "@/lib/constants";
 
 async function downloadCsv(params: URLSearchParams) {
   const token = localStorage.getItem("token");
@@ -71,8 +72,9 @@ export function EntriesPage() {
             onChange={(e) => { setSource(e.target.value); setPage(1); }}
           >
             <option value="">Todas</option>
-            <option value="claude-code">claude-code</option>
-            <option value="claude.ai">claude.ai</option>
+            {SOURCE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
           </NativeSelect>
         </div>
         <div className="space-y-1">

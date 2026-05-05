@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
       }
 
       const timestamp = fields[0];
-      const source = fields[1] as "claude-code" | "claude.ai";
+      const source = fields[1] as "claude-code" | "claude.ai" | "opencode" | "codex" | "pi" | "droid";
       const model = fields[2];
       const inputTokens = parseInt(fields[3], 10) || 0;
       const outputTokens = parseInt(fields[4], 10) || 0;
@@ -105,7 +105,7 @@ router.post("/", async (req, res) => {
         continue;
       }
 
-      if (!["claude-code", "claude.ai"].includes(source)) {
+      if (!["claude-code", "claude.ai", "opencode", "codex", "pi", "droid"].includes(source)) {
         errors++;
         errorDetails.push(`Row ${i + 2}: invalid source "${source}"`);
         continue;

@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatDate, formatUSD, formatNumber } from "@/lib/formatters";
+import { getSourceLabel } from "@/lib/constants";
 
 interface Entry {
   id: string;
@@ -56,7 +57,7 @@ export function EntriesTable({ entries }: Props) {
           <TableRow key={e.id}>
             <TableCell className="text-sm whitespace-nowrap">{formatDate(e.timestamp)}</TableCell>
             <TableCell>
-              <Badge variant="outline" className="text-xs">{e.source}</Badge>
+              <Badge variant="outline" className="text-xs">{getSourceLabel(e.source)}</Badge>
             </TableCell>
             <TableCell className="text-sm">{e.model}</TableCell>
             <TableCell className="text-right text-sm">{formatNumber(e.input_tokens)}</TableCell>

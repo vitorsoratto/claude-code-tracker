@@ -5,17 +5,12 @@ import { useProjects } from "@/hooks/useProjects";
 import type { DashboardFilters } from "@/hooks/useDashboard";
 import { DateRangeFilter } from "@/components/shared/DateRangeFilter";
 import { NativeSelect } from "@/components/shared/NativeSelect";
+import { SOURCE_OPTIONS } from "@/lib/constants";
 
 interface Props {
   filters: DashboardFilters;
   onChange: (filters: DashboardFilters) => void;
 }
-
-const SOURCE_OPTIONS = [
-  { value: "", label: "Todas as fontes" },
-  { value: "claude-code", label: "Claude Code" },
-  { value: "claude.ai", label: "claude.ai" },
-];
 
 const PERIOD_PRESETS = [
   { value: "today", label: "Hoje" },
@@ -67,6 +62,7 @@ export function DashboardFilters({ filters, onChange }: Props) {
           onChange={(e) => onChange({ ...filters, source: e.target.value || undefined })}
           className="w-36"
         >
+          <option value="">Todas as fontes</option>
           {SOURCE_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}

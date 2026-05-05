@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { SessionNameEditor } from "./SessionNameEditor";
 import { useRenameSession } from "@/hooks/useSessions";
 import { formatDate, formatUSD } from "@/lib/formatters";
+import { getSourceLabel } from "@/lib/constants";
 import { toast } from "sonner";
 
 interface Session {
@@ -89,7 +90,7 @@ export function SessionsTable({ sessions, sortBy, sortDir, onSort }: Props) {
               />
             </TableCell>
             <TableCell>
-              <Badge variant="outline" className="text-xs">{s.source}</Badge>
+              <Badge variant="outline" className="text-xs">{getSourceLabel(s.source)}</Badge>
             </TableCell>
             <TableCell onClick={(e) => e.stopPropagation()}>
               {s.project_name && s.project_id ? (

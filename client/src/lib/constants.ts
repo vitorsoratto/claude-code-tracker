@@ -19,7 +19,33 @@ export const MODEL_COLORS: Record<string, string> = {
 export const SOURCE_COLORS: Record<string, string> = {
   "claude-code": "#f59e0b",
   "claude.ai": "#06b6d4",
+  opencode: "#10b981",
+  codex: "#111827",
+  pi: "#ec4899",
+  droid: "#84cc16",
 };
+
+export const SOURCE_LABELS: Record<string, string> = {
+  "claude-code": "Claude Code",
+  "claude.ai": "claude.ai",
+  opencode: "OpenCode",
+  codex: "Codex",
+  pi: "Pi",
+  droid: "Droid",
+};
+
+export const SOURCE_OPTIONS = [
+  { value: "claude-code", label: SOURCE_LABELS["claude-code"] },
+  { value: "claude.ai", label: SOURCE_LABELS["claude.ai"] },
+  { value: "opencode", label: SOURCE_LABELS.opencode },
+  { value: "codex", label: SOURCE_LABELS.codex },
+  { value: "pi", label: SOURCE_LABELS.pi },
+  { value: "droid", label: SOURCE_LABELS.droid },
+];
+
+export function getSourceLabel(source: string): string {
+  return SOURCE_LABELS[source] || source;
+}
 
 export const VALUE_COLORS = {
   good: "#22c55e",

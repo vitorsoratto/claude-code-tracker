@@ -63,6 +63,27 @@ export TOKEN_TRACKER_TOKEN=cole-seu-token-aqui
 
 Ou edite diretamente `scripts/claude_code_hook.py`.
 
+### Codex / Pi / Droid (importador local)
+
+O importador lê os registros locais dos harnesses e envia só o delta ainda não enviado:
+
+- Codex: `~/.codex/logs_2.sqlite`
+- Pi: `~/.pi/agent/sessions/**/*.jsonl`
+- Droid: `~/.factory/sessions/**/*.settings.json`
+
+```bash
+export TOKEN_TRACKER_WEBHOOK=http://localhost:3001/api/webhook/track-tokens
+export TOKEN_TRACKER_TOKEN=cole-seu-token-aqui
+
+# conferir sem enviar
+python3 scripts/harness_importer.py --dry-run --source all
+
+# importar codex/pi/droid
+python3 scripts/harness_importer.py --source all
+```
+
+Use `--source codex`, `--source pi` ou `--source droid` para importar um harness específico. Por padrão, a primeira execução importa registros dos últimos 30 dias; use `--all-history` para backfill completo.
+
 ## Comandos
 
 | Comando | Descricao |
@@ -71,6 +92,7 @@ Ou edite diretamente `scripts/claude_code_hook.py`.
 | `npm run build` | Build de producao (client + server) |
 | `npm start` | Inicia server de producao (serve tudo na porta 3001) |
 | `npm run migrate` | Roda migrations do banco |
+| `npm run import:harnesses` | Importa deltas locais de Codex, Pi e Droid |
 | `npm run db:up` | Sobe PostgreSQL via Docker |
 | `npm run db:down` | Para o PostgreSQL |
 

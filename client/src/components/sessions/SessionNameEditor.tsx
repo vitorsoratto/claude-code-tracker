@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Pencil } from "lucide-react";
+import { getSourceLabel } from "@/lib/constants";
 interface Props {
   currentName: string | null;
   sessionId: string;
@@ -12,7 +13,7 @@ interface Props {
 
 function generateSmartName(source?: string, firstSeen?: string, entryCount?: number): string {
   const parts: string[] = [];
-  if (source) parts.push(source === "claude-code" ? "Code" : "Web");
+  if (source) parts.push(getSourceLabel(source));
   if (firstSeen) {
     const d = new Date(firstSeen);
     parts.push(`${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`);

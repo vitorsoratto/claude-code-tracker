@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 import { formatUSD } from "@/lib/formatters";
-import { normalizeModelFamily } from "@/lib/constants";
+import { getSourceLabel, normalizeModelFamily } from "@/lib/constants";
 import { parseISO, format } from "date-fns";
 
 interface Props {
@@ -31,7 +31,7 @@ export function MonthNarrative({
   // Dominant source
   const sourceSorted = [...bySource].sort((a, b) => Number(b.cost_usd) - Number(a.cost_usd));
   const topSource = sourceSorted[0];
-  const topSourceLabel = topSource?.source === "claude-code" ? "Claude Code" : "claude.ai";
+  const topSourceLabel = topSource ? getSourceLabel(topSource.source) : "";
   const topSourcePct = topSource && cost > 0 ? ((Number(topSource.cost_usd) / cost) * 100).toFixed(0) : "0";
 
   // Busiest day

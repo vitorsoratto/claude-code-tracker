@@ -7,6 +7,7 @@
     "build": "npm run build -w client && npm run build -w server",
     "start": "node server/dist/index.js",
     "migrate": "npm run migrate -w server",
+    "import:harnesses": "python3 scripts/harness_importer.py",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down"
   },
