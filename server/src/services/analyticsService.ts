@@ -291,7 +291,7 @@ export async function getSessionTime(
      )
      SELECT
        session_id,
-       MAX(session_db_id) AS session_db_id,
+       MAX(session_db_id::text) AS session_db_id,
        sessao,
        MAX(project_id::text) AS project_id,
        MAX(project_name) AS project_name,
